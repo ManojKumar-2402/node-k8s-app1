@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout from GitHub') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/ManojKumar-2402/node-k8s-app1.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                docker build -t my-k8s-app:${BUILD_NUMBER} .
+                docker tag my-k8s-app:${BUILD_NUMBER} manojdoc123/my-k8s-app1:latest
+                '''
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+               withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
+                    sh "docker push ${DOCKER_IMAGE}"
+                }
+            }
+        }
+    }
+}
