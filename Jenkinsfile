@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh '''
                 docker build -t my-k8s-app1:${BUILD_NUMBER} .
-                docker tag my-k8s-app1:${BUILD_NUMBER} manojdoc123/my-k8s-app1:latest
+                docker tag my-k8s-app1:${BUILD_NUMBER} manojdoc123/my-k8s-app1:${BUILD_NUMBER}
                 '''
             }
         }
