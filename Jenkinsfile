@@ -27,8 +27,10 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
-               withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
-                    sh "docker push ${DOCKER_IMAGE}"
+                withDockerRegistry([credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/']) {
+                    sh '''
+                    docker push manojdoc123/my-k8s-app1:${BUILD_NUMBER}
+                    '''
                 }
             }
         }
